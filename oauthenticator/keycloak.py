@@ -20,14 +20,12 @@ from jupyterhub.utils import url_path_join
 from .oauth2 import OAuthLoginHandler, OAuthenticator
 
 class KeycloakMixin(OAuth2Mixin):
-    _OAUTH_AUTHORIZE_URL = os.getenv('KEYCLOAK_AUTH_URL',
-                                     "https://localhost:8080/auth/realms/master/protocol/openid-connect/auth")
-    _OAUTH_ACCESS_TOKEN_URL = os.getenv('KEYCLOAK_TOKEN_URL',
-                                        "https://localhost:8080/auth/realms/master/protocol/openid-connect/token")
-    _OAUTH_LOGOUT_URL = os.getenv('KEYCLOAK_LOGOUT_URL',
-                                     "https://localhost:8080/auth/realms/master/protocol/openid-connect/logout")
-    _OAUTH_USERINFO_URL = os.getenv('KEYCLOAK_USERINFO_URL',
-                                  "https://localhost:8080/auth/realms/master/protocol/openid-connect/userinfo")
+    _REALM_URL = os.getenv('KEYCLOAK_REALM_URL')
+
+    _OAUTH_AUTHORIZE_URL = _REALM_URL + "/protocol/openid-connect/auth"
+    _OAUTH_ACCESS_TOKEN_URL =  _REALM_URL + "/protocol/openid-connect/token"
+    _OAUTH_LOGOUT_URL =  _REALM_URL + "/protocol/openid-connect/logout"
+    _OAUTH_USERINFO_URL = os.ge _REALM_URL + "/protocol/openid-connect/userinfo"
 
 
 class KeycloakLoginHandler(OAuthLoginHandler, KeycloakMixin):
